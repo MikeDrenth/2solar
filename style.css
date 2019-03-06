@@ -1,0 +1,129 @@
+body,
+html {
+    height: 100%;
+}
+
+body {
+    background: #2c4054;
+    font-size: 16px;
+}
+
+header {
+    padding-bottom: 2rem;
+}
+
+h1,
+h2,
+h3 {
+    color: white;
+    margin: 0 0 10px;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+#pageWrapper {
+    padding-top: 5rem;
+}
+
+.pageForm {
+    background: white;
+    box-shadow: 2px 1px 6px 0px #0000007a;
+    height: 500px;
+    padding: 3rem;
+    text-align: center;
+}
+
+.pageForm h2 {
+    color: #2c4054;
+    margin-bottom: 30px;
+}
+
+.pageForm form {
+    margin: 0 auto;
+    width: 300px;
+}
+
+.pageForm input {
+    border: 1px solid black;
+    border-radius: 50px;
+    padding: 15px;
+    width: 300px;
+}
+
+.pageForm input[type="submit"] {
+    background: #2C4054;
+    cursor: pointer;
+    color: white;
+    transition: .5s;
+}
+
+.pageForm input:focus {
+    border-color: rgb(255, 149, 0);
+    outline: none;
+}
+
+.pageForm input[type="submit"]:hover {
+    background: rgb(255, 149, 0);
+    border-color: #b16801;
+    color: white;
+}
+
+.clientContent {
+    background: white;
+    height: 750px;
+    padding: 3rem;
+}
+
+.clientContent .deadLine {
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.clientContent .deadLine p {
+    margin: 0;
+    padding: 0;
+}
+
+.upload-btn-wrapper {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+  
+.upload-btn-wrapper .btn {
+    background: #F44336;
+    border-radius: 50px;
+    border: 1px solid #9E9E9E;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    width: 100%;
+}
+
+.upload-btn-wrapper.complete .btn {
+    background: #4CAF50;
+}
+
+.upload-btn-wrapper input[type=file] {
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;   
+}
+
+.clientContent input[type="submit"] {
+    border: 1px solid black;
+    background: #2C4054;
+    border-radius: 50px;
+    padding: 15px;
+    width: 100%;
+    cursor: pointer;
+    color: white;
+    transition: .5s;
+}
