@@ -36,7 +36,7 @@ $(document).ready(function() {
             }  
             
             // Check the file size
-            if(uploadedSize < 100000) {
+            if(uploadedSize < 1000000) {
                 var uploadValid = true;
             } else {
                 alert('Het bestand is te groot, upload aub een kleiner bestand');
