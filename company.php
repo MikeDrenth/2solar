@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 
 <body>
@@ -22,9 +23,11 @@
         // Get company ID by SESSION ID
         if(!empty($_SESSION['user_id'] && !empty($_SESSION['client_id']))) {
             $companyID = $_SESSION['client_id'];
+        } else {
+            //$companyID = 101;
         }
 
-        // Query for getting the client name and logo
+        // Query for getting the current client info
         $query = $db->prepare("SELECT * FROM solar_company WHERE client_id = '$companyID'");
         $query->execute();
         $result = $query->get_result();
@@ -52,9 +55,9 @@
                 die("Connection failed: " . $db->connect_error);
             } 
 
-            // TODO: Update the current client with client_id
+            // TODO: If there was already a document in the record, then update that current file in the database, if not, then insert.
             $result = $db->prepare('
-                UPDATE
+                INSERT INTO 
                     solar_company (
                         company_logo,
                         preview_order,
@@ -71,7 +74,7 @@
                 )
             ');   
 
-            $result->bind_param('bbbbs', $companyLogo, $orderPreview, $$writingPaper, $priceList, $currentDate);
+            $result->bind_param('bbbbs', $companyLogo, $orderPreview, $writingPaper, $priceList, $currentDate);
             $result->execute();
         }
     ?>
@@ -87,45 +90,109 @@
         </header>
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-12 col-md-10">
+                <div class="col-12">
                     <div class="clientContent">
-                        <div class="row align-items-center">
+                        <div class="row">
                             <div class="deadLine">
                                 <div class="col-12">
                                     <?php 
-                                        $deadline = strtotime($deadline);
-                                        $deadline = date("m-d-Y");
+                                        $deadlineStr = strtotime($deadline);
+                                        $deadlineStr = date("m-d-Y", $deadlineStr);
                                     ?>
-                                    <p>Deadline: <?=$deadline;?></p>
+                                    <p>Deadline: <?=$deadlineStr;?></p>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <p>Please upload or update the missing fields below.</p>
+                                <p>Upload a.u.b. onderstaand de benodigde documenten.</p>
                             </div>
-                            <div class="col-12 col-md-4">
-                                <form action="" method="post">
-                                    <?php $isValid = ($clientLogo == '') ? 'missing' : 'complete'; ?>
-                                    <div class="upload-btn-wrapper <?=$isValid;?>">
-                                        <button class="btn">Upload a logo</button>
-                                        <input class="fileUpload" type="file" name="companyLogo"><br><br>
-                                    </div>
-                                    <?php $isValid = ($previewOrder == '') ? 'missing' : 'complete'; ?>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn">Preview order document</button>
-                                        <input class="fileUpload"  type="file" name="orderPreview"><br><br>
-                                    </div>
-                                    <?php $isValid = ($writingPaper == '') ? 'missing' : 'complete'; ?>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn">Writing paper</button>
-                                        <input class="fileUpload"  type="file" name="writingPaper"><br><br>
-                                    </div>
-                                    <?php $isValid = ($priceList == '') ? 'missing' : 'complete'; ?>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn">Price list</button>
-                                        <input class="fileUpload"  type="file" name="priceList"><br><br>
+                            <div class="col-12 col-md-8">
+                                <form action="" method="post" name="uploadData" id="uploadData">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <?php $isValid = ($clientLogo == '') ? 'missing' : 'complete'; ?>
+                                            <div class="upload-btn-wrapper <?=$isValid;?>">
+                                                <i class="fas fa-check"></i>
+                                                <div class="text">Upload bedrijfs logo</div>
+                                                <input id="companyLogo" class="fileUpload" type="file" name="companyLogo">
+                                                <div class="infoIcon"><i class="fas fa-info-circle"></i></div>
+                                                <div class="extraInfo">
+                                                    <p>Upload hier uw bedrijfs logo. Gelieve deze aan te leveren in PNG bestand met een maximale upload van 5MB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <?php $isValid = ($previewOrder == '') ? 'missing' : 'complete'; ?>
+                                            <div class="upload-btn-wrapper <?=$isValid;?>">
+                                                <i class="fas fa-check"></i>
+                                                <div class="text">Upload offerte voorbeeld</div>
+                                                <input class="fileUpload"  type="file" name="orderPreview">
+                                                <div class="infoIcon"><i class="fas fa-info-circle"></i></div>
+                                                <div class="extraInfo">
+                                                    <p>Upload hier een voorbeeld van huidige offerte document.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <?php $isValid = ($writingPaper == '') ? 'missing' : 'complete'; ?>
+                                            <div class="upload-btn-wrapper <?=$isValid;?>">
+                                                <i class="fas fa-check"></i>
+                                                <div class="text">Upload briefpapier</div>
+                                                <input class="fileUpload"  type="file" name="writingPaper">
+                                                <div class="infoIcon"><i class="fas fa-info-circle"></i></div>
+                                                <div class="extraInfo">
+                                                    <p>Upload hier uw briefpapier, deze wordt gebruikt voor het maken van de offertes.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                        <?php $isValid = ($priceList == '') ? 'missing' : 'complete'; ?>
+                                            <div class="upload-btn-wrapper  <?=$isValid;?>">
+                                                <i class="fas fa-check"></i>
+                                                <div class="text">Upload prijzenlijst</div>
+                                                <input class="fileUpload"  type="file" name="priceList">
+                                                <div class="infoIcon"><i class="fas fa-info-circle"></i></div>
+                                                <div class="extraInfo">
+                                                    <p>Upload hier een CSV bestand met de prijzenlijst.</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <input type="submit" value="Save">
                                 </form>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <?php
+                                    // Get total days left before deadline
+                                    date_default_timezone_set('Europe/Warsaw');
+                                    $datetime1 = new DateTime($deadline);
+                                    $datetime2 = new DateTime(date("d/m/Y"));
+                                    $interval = $datetime1->diff($datetime2);
+                                    $daysLeft = $interval->format('%a');
+                                ?>
+                                <p><?=$daysLeft?> dagen om benodigde informatie te leveren.</p>
+                                <h3>Vooruitgang</h3>
+                                <div class="bar-one bar-con progress">
+                                    <?php
+                                        $percentagePerValid = 25;
+                                        $totalFields        = 4;
+                                        $notEmptyField      = 0;
+                                        $progressPercentage = 0;
+                                        if($priceList !== '') {
+                                            $notEmptyField++;
+                                        }
+                                        if($writingPaper !== '') {
+                                            $notEmptyField++;
+                                        }
+                                        if($priceList !== '') {
+                                            $notEmptyField++;
+                                        }
+                                        if($previewOrder !== '') {
+                                            $notEmptyField++;
+                                        }
+                                        $progressPercentage = $percentagePerValid * $notEmptyField;
+                                    ?>
+                                    <div class="bar progress-bar" data-percent="<?=$progressPercentage?>"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,5 +200,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="custom.js" type="text/javascript"></script>
 </body>
 </html>

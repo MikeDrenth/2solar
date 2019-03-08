@@ -23,10 +23,7 @@ header h1 {
     font-size: 32px;
 }
 
-#pageWrapper {
-    padding-top: 5rem;
-}
-
+/* PageForm styles */
 .pageForm {
     background: white;
     box-shadow: 2px 1px 6px 0px #0000007a;
@@ -70,10 +67,18 @@ header h1 {
     color: white;
 }
 
+
+/* Client content style */
 .clientContent {
     background: white;
     height: 750px;
     padding: 3rem;
+}
+
+.clientContent h3 {
+    color: #212529;
+    font-size: 16px;
+    margin-top: 15px;
 }
 
 .clientContent .deadLine {
@@ -88,23 +93,34 @@ header h1 {
     padding: 0;
 }
 
+/* Upload file for client styles */
 .upload-btn-wrapper {
-    display: block;
+    align-items: center;
+    background: #F44336;
+    box-shadow: 1px 1px 3px 1px #2c40538f;
+    cursor: pointer;
+    display: flex;
+    height: 150px;
+    margin-bottom: 25px;
+    transition: .5s;
     overflow: hidden;
     position: relative;
-}
-  
-.upload-btn-wrapper .btn {
-    background: #F44336;
-    border-radius: 50px;
-    border: 1px solid #9E9E9E;
-    color: white;
-    cursor: pointer;
     padding: 15px;
+    justify-content: center;
     width: 100%;
 }
+  
+.upload-btn-wrapper .text {
+    color: white;
+}
 
-.upload-btn-wrapper.complete .btn {
+.upload-btn-wrapper.complete:hover,
+.upload-btn-wrapper:hover {
+    background: #2c4053;
+}
+
+.upload-btn-wrapper.uploadValid,
+.upload-btn-wrapper.complete {
     background: #4CAF50;
 }
 
@@ -114,7 +130,53 @@ header h1 {
     opacity: 0;
     position: absolute;
     right: 0;
-    top: 0;   
+    top: 0;  
+    width: 100%;
+    height: 100%; 
+}
+
+.upload-btn-wrapper i[class*="check"] {
+    color: white;
+    font-size: 14px;
+    margin-right: 15px;
+    transition: .5s;
+}
+
+.upload-btn-wrapper:not(.uploadValid) i[class*="check"] {
+    opacity: 0;
+}
+
+.infoIcon {
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;;
+    top: 3px;
+    z-index: 100;
+}
+
+.extraInfo {
+    background: #2c4054;
+    display: none;
+    font-size: 13px;
+    color: white;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: .5s;
+}
+
+.extraInfo.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 0 25px;
+}
+
+.extraInfo p {
+    margin: 0;
 }
 
 .clientContent input[type="submit"] {
@@ -126,4 +188,13 @@ header h1 {
     cursor: pointer;
     color: white;
     transition: .5s;
+}
+
+/* progression bar styles */
+.bar-one {
+    margin-top: 15px;
+}
+
+.bar {
+    width:0%;
 }
